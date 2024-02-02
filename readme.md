@@ -5,24 +5,24 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/MaDHouSe79/mh-blackmoneywash/issues">
-        <img src="https://img.shields.io/github/issues/MaDHouSe79/mh-blackmoneywash"/> 
+    <a href="https://github.com/MaDHouSe79/mh-moneywash/issues">
+        <img src="https://img.shields.io/github/issues/MaDHouSe79/mh-moneywash"/> 
     </a>
-    <a href="https://github.com/MaDHouSe79/mh-blackmoneywash/watchers">
-        <img src="https://img.shields.io/github/watchers/MaDHouSe79/mh-blackmoneywash"/> 
+    <a href="https://github.com/MaDHouSe79/mh-moneywash/watchers">
+        <img src="https://img.shields.io/github/watchers/MaDHouSe79/mh-moneywash"/> 
     </a> 
-    <a href="https://github.com/MaDHouSe79/mh-blackmoneywash/network/members">
-        <img src="https://img.shields.io/github/forks/MaDHouSe79/mh-blackmoneywash"/> 
+    <a href="https://github.com/MaDHouSe79/mh-moneywash/network/members">
+        <img src="https://img.shields.io/github/forks/MaDHouSe79/mh-moneywash"/> 
     </a>  
-    <a href="https://github.com/MaDHouSe79/mh-blackmoneywash/stargazers">
-        <img src="https://img.shields.io/github/stars/MaDHouSe79/mh-blackmoneywash?color=white"/> 
+    <a href="https://github.com/MaDHouSe79/mh-moneywash/stargazers">
+        <img src="https://img.shields.io/github/stars/MaDHouSe79/mh-moneywash?color=white"/> 
     </a>
-    <a href="https://github.com/MaDHouSe79/mh-blackmoneywash/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/MaDHouSe79/mh-blackmoneywash?color=black"/> 
+    <a href="https://github.com/MaDHouSe79/mh-moneywash/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/MaDHouSe79/mh-moneywash?color=black"/> 
     </a>      
 </p>
 
-# MH-BlackmoneyWash
+# MH-MoneyWash
 - wash your blackmoney for clean money
 
 ## 🙈 Youtube
