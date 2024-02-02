@@ -5,18 +5,6 @@ Config = {}
 
 Config.Locations = {
     {
-        coords = vector3(158.0883, -1001.0672, 29.3551),
-        heading = 270.0,
-        washTime = 60000,
-        prop = "prop_washer_03",
-        icon = 'fa fa-eur',
-        blip = {
-            name = 'Washmachine',
-            sprite = 434,
-            color = 32,
-            enable = true,
-        },
-    }, {
         coords = vector3(19.2635, -1336.6592, 30.2502),
         heading = 270.0,
         washTime = 60000,
