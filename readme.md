@@ -31,6 +31,9 @@
 ## MoneyWash MLO
 - [interior](https://www.gta5-mods.com/maps/abandoned-laundromat-interior-singleplayer-fivem-gtadps)
 
+## Dependencies
+- [mh-cashasitem](https://github.com/MaDHouSe79/mh-cashasitem)
+
 # Change values on server side.
 - you can change values in the `server/main.lua` 
 - `tax = 30` at line 5 
