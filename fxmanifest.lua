@@ -1,5 +1,5 @@
 --[[ ===================================================== ]] --
---[[          MH Blackmoney Wash Script by MaDHouSe        ]] --
+--[[            MH Money Wash Script by MaDHouSe           ]] --
 --[[ ===================================================== ]] --
 fx_version 'cerulean'
 game 'gta5'
