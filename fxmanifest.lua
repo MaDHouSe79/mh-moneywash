@@ -3,7 +3,7 @@
 --[[ ===================================================== ]] --
 fx_version 'cerulean'
 game 'gta5'
-description 'MH Blackmoney Wash'
+description 'MH Money Wash'
 version '1.0'
 shared_scripts {'@qb-core/shared/locale.lua', 'locales/en.lua', 'config.lua'}
 client_scripts {'client/main.lua'}
