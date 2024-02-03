@@ -1,5 +1,5 @@
 --[[ ===================================================== ]] --
---[[          MH Blackmoney Wash Script by MaDHouSe        ]] --
+--[[            MH Money Wash Script by MaDHouSe           ]] --
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 local isLoggedIn, isDone, isBisy, canUse, machines, blips = false, false, false, true, {}, {}
