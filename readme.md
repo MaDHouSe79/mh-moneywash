@@ -42,6 +42,21 @@
 # 7 Locations to wash blackmoney
 - you can add more if you want in the config.lua file.
 
+# QB Shared Item
+```lua
+['black_money'] = {
+    ['name'] = 'black_money',
+    ['label'] = 'Black Money',
+    ['weight'] = 0,
+    ['type'] = 'item',
+    ['image'] = 'blackmoney.png',
+    ['unique'] = false,
+    ['useable'] = false,
+    ['shouldClose'] = true,
+    ['combinable'] = nil,
+    ['description'] = 'Black Money?'
+},
+```
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
