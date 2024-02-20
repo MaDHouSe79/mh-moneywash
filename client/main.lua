@@ -1,18 +1,16 @@
 --[[ ===================================================== ]] --
---[[            MH Money Wash Script by MaDHouSe           ]] --
+--[[          MH Blackmoney Wash Script by MaDHouSe        ]] --
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
-local isLoggedIn, isDone, isBisy, canUse, machines, blips = false, false, false, true, {}, {}
+local isLoggedIn, isDone, isBisy, machines, blips = false, false, false, {}, {}
 
 --- Play Animation
 ---@param dict string
 ---@param name string
 ---@param time number
-local function PlayAnimation(dict, name, time, text)
-    isBisy = true
-    canUse = false
-    LocalPlayer.state:set("inv_busy", true, true) -- lock
-    QBCore.Functions.Progressbar('searching', text, time, false, true, {
+local function PlayAnimation(machine, dict, name, text)
+    LocalPlayer.state:set("inv_busy", true, true)
+    QBCore.Functions.Progressbar('wash_money', text, machine.washTime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -23,35 +21,52 @@ local function PlayAnimation(dict, name, time, text)
         flags = 49
     }, {}, {}, function()
         ClearPedTasks(PlayerPedId())
-        LocalPlayer.state:set("inv_busy", false, true) -- unlock
         FreezeEntityPosition(PlayerPedId(), false)
         isBisy = false
-        canUse = true
+        TriggerServerEvent('mh-blackmoneywash:server:payout', machine)
+        LocalPlayer.state:set("inv_busy", false, true)
     end, function() -- cansel
-        LocalPlayer.state:set("inv_busy", false, true) -- unlock
         FreezeEntityPosition(PlayerPedId(), false)
+        LocalPlayer.state:set("inv_busy", false, true)
         isBisy = false
-        canUse = true
     end)
 end
 
-local function CreateMachineBlip(machine)
+--- Create Machine Blip
+---@param coords table
+local function CreateMachineBlip(coords)
     local blip = nil
-    if machine.blip.enable then
-        blip = AddBlipForCoord(machine.coords.x, machine.coords.y, machine.coords.z)
-        SetBlipSprite(blip, machine.blip.sprite)
+    if Config.Blip.enable then
+        blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+        SetBlipSprite(blip, Config.Blip.sprite)
         SetBlipDisplay(blip, 4)
         SetBlipScale(blip, 0.6)
         SetBlipAsShortRange(blip, true)
-        SetBlipColour(blip, machine.blip.color)
+        SetBlipColour(blip, Config.Blip.color)
         BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(machine.blip.name)
+        AddTextComponentSubstringPlayerName(Config.Blip.label)
         EndTextCommandSetBlipName(blip)
         blips[#blips + 1] = blip
     end
     return blip
 end
 
+--- Delete Blips
+local function DeleteBlips() 
+    for k, blip in pairs(blips) do
+        if DoesBlipExist(blip) then
+            RemoveBlip(blip)
+        end
+    end
+end
+
+local function Wash(machine)
+    QBCore.Functions.TriggerCallback("mh-blackmoneywash:server:hasBlackmoney", function(hasBlacmmoney)
+        if hasBlacmmoney then
+            TriggerServerEvent('mh-blackmoneywash:server:washmoney', machine)
+        end
+    end)
+end
 
 ---Create Stash Object
 ---@param itemName string
@@ -65,31 +80,61 @@ local function CreateMachine(machine)
     SetEntityAsMissionEntity(prop, true, true)
     PlaceObjectOnGroundProperly(prop)
     FreezeEntityPosition(prop, true)
-    CreateMachineBlip(machine)
-    exports['qb-target']:AddTargetEntity(prop, {
-        options = {
+    CreateMachineBlip(machine.coords)
+    if Config.Target == "qb-target" then
+        exports[Config.Target]:AddTargetEntity(prop, {
+            options = {
+                {
+                    icon = machine.icon,
+                    label = Lang:t('target.wash_money'),
+                    action = function(entity)
+                        isBisy = true
+                        TaskTurnPedToFaceEntity(PlayerPedId(), entity, 5000)
+                        Wait(1500)
+                        Wash(machine)
+                    end,
+                    canInteract = function(entity, distance, data)
+                        if isBisy then return false end
+                        return true
+                    end
+                }
+            },
+            distance = 2.5
+        })     
+    elseif Config.Target == "ox_target" then
+        exports.ox_target:removeModel(machine.prop, 'moneywash')
+        exports.ox_target:addModel(machine.prop, {
             {
+                name = 'moneywash',
                 icon = machine.icon,
                 label = Lang:t('target.wash_money'),
-                action = function(entity)
-                    QBCore.Functions.TriggerCallback("mh-blackmoneywash:server:hasBlackmoney", function(canWash)
-                        if canWash then
-                            PlayAnimation("amb@world_human_gardener_plant@male@base", "base", machine.washTime, Lang:t('notify.wait_wash_machine'))
-                            TriggerServerEvent('mh-blackmoneywash:server:washmoney', machine)
-                        end
-                    end)
+                onSelect = function(data)
+                    isBisy = true
+                    TaskTurnPedToFaceEntity(PlayerPedId(), data.entity, 5000)
+                    Wait(1500)
+                    Wash(machine)
                 end,
                 canInteract = function(entity, distance, data)
                     if isBisy then return false end
-                    if not canUse then return false end
                     return true
-                end
-            }
-        },
-        distance = 2.5
-    })
+                end,
+                distance = 2.5
+            },
+        })
+    end
     machines[#machines + 1] = prop
     return prop
+end
+
+--- Create Machines
+local function CreateMachines()
+    QBCore.Functions.TriggerCallback("mh-blackmoneywash:server:GetMachines", function(machineList)
+        if type(machineList) == 'table' and #machineList > 0 then
+            for k, machine in pairs(machineList) do
+                CreateMachine(machine)
+            end
+        end
+    end)
 end
 
 --- Delete Machines
@@ -101,24 +146,9 @@ local function DeleteMachines()
     end
 end
 
---- Create Machines
-local function CreateMachines()
-    for k, v in pairs(Config.Locations) do
-        CreateMachine(v)
-    end
-end
-
-local function DeleteBlips() 
-    for k, blip in pairs(blips) do
-        if DoesBlipExist(blip) then
-            RemoveBlip(blip)
-        end
-    end
-end
-
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
-    CreateMachines()
+    TriggerServerEvent('mh-blackmoneywash:server:onjoin')
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
@@ -130,7 +160,7 @@ end)
 AddEventHandler('onResourceStart', function(resourceName)
     if resourceName == GetCurrentResourceName() then
         isLoggedIn = true
-        CreateMachines()
+        TriggerServerEvent('mh-blackmoneywash:server:onjoin')
     end
 end)
 
@@ -140,4 +170,12 @@ AddEventHandler('onResourceStop', function(resourceName)
         DeleteMachines()
         DeleteBlips() 
     end
+end)
+
+RegisterNetEvent('mh-blackmoneywash:client:onjoin', function()
+    CreateMachines()
+end)
+
+RegisterNetEvent('mh-blackmoneywash:client:washmoney', function(machine)
+    PlayAnimation(machine, "amb@world_human_gardener_plant@male@base", "base", Lang:t('notify.wait_wash_machine'))
 end)
