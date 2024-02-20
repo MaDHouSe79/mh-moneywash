@@ -22,41 +22,25 @@
     </a>      
 </p>
 
+
+## Youtube
+- [Youtube](https://www.youtube.com/@MaDHouSe79) for videos
+
 # MH-MoneyWash
 - wash your blackmoney for clean money
 
-## 🙈 Youtube
-- [Youtube](https://www.youtube.com/@MaDHouSe79) for videos
-
-## MoneyWash MLO
-- [interior](https://www.gta5-mods.com/maps/abandoned-laundromat-interior-singleplayer-fivem-gtadps)
-
 ## Dependencies
-- [mh-cashasitem](https://github.com/MaDHouSe79/mh-cashasitem)
+- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-target](https://github.com/qbcore-framework/qb-target) or [ox_target](https://github.com/overextended/ox_target)
+
+# Change values on client side.
+- you can change values in the `client/config.lua`
 
 # Change values on server side.
-- you can change values in the `server/main.lua` 
-- `tax = 30` at line 5 
-- `minToWash = 10000` at line 6
+- you can change values in the `server/sv_config.lua` 
 
 # 7 Locations to wash blackmoney
-- you can add more if you want in the config.lua file.
-
-# QB Shared Item
-```lua
-['black_money'] = {
-    ['name'] = 'black_money',
-    ['label'] = 'Black Money',
-    ['weight'] = 0,
-    ['type'] = 'item',
-    ['image'] = 'blackmoney.png',
-    ['unique'] = false,
-    ['useable'] = false,
-    ['shouldClose'] = true,
-    ['combinable'] = nil,
-    ['description'] = 'Black Money?'
-},
-```
+- you can add more if you want in the `server/sv_config.lua` file.
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
