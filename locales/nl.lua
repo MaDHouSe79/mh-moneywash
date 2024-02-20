@@ -1,5 +1,5 @@
 --[[ ===================================================== ]] --
---[[            MH Money Wash Script by MaDHouSe           ]] --
+--[[          MH Blackmoney Wash Script by MaDHouSe        ]] --
 --[[ ===================================================== ]] --
 local Translations = {
     notify = {
@@ -9,10 +9,14 @@ local Translations = {
         ['take_money_from_machine'] = "Bezig met geld pakken",
         ['wash_money'] = "[E] - Witwassen",
         ['take_money'] = "[E] - Pak geld",
+        ['machine_not_found'] = "Apparaat niet gevonden",
+        ['player_not_found'] = "Speler niet gevonden",
+        ['error'] = "~r~ERROR - Je bent vergeten black_money toe te voegen in de qb-core/config.lua bestand.~w~",
     },
     target = {
         ['wash_money'] = "Witwassen",
         ['take_money'] = "Pak geld",
+        ['take_machine'] = "Pak Machine",
     }
 }
 
