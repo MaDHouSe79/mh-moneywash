@@ -1,5 +1,5 @@
 --[[ ===================================================== ]] --
---[[            MH Money Wash Script by MaDHouSe           ]] --
+--[[          MH Blackmoney Wash Script by MaDHouSe        ]] --
 --[[ ===================================================== ]] --
 local Translations = {
     notify = {
@@ -9,10 +9,14 @@ local Translations = {
         ['take_money_from_machine'] = "Busy taking money",
         ['wash_money'] = "[E] - Wash Money",
         ['take_money'] = "[E] - Take Money",
+        ['machine_not_found'] = "Machine Not found",
+        ['player_not_found'] = "Player Not found",
+        ['error'] = "~r~ERROR - You forgot to add black_money in the qbcore config file.~w~",
     },
     target = {
         ['wash_money'] = "Wash Money",
         ['take_money'] = "Take Money",
+        ['take_machine'] = "Take Machine",
     }
 }
 
