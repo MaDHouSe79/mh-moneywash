@@ -8,9 +8,10 @@ local isLoggedIn, isDone, isBisy, machines, blips = false, false, false, {}, {}
 ---@param dict string
 ---@param name string
 ---@param time number
-local function PlayAnimation(machine, dict, name, text)
+local function PlayAnimation(machine, dict, name, text, amount)
     LocalPlayer.state:set("inv_busy", true, true)
-    QBCore.Functions.Progressbar('wash_money', text, machine.washTime, false, true, {
+    local washtime = machine.washTime * (amount / 1000) / 100
+    QBCore.Functions.Progressbar('wash_money', text, washtime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -23,7 +24,7 @@ local function PlayAnimation(machine, dict, name, text)
         ClearPedTasks(PlayerPedId())
         FreezeEntityPosition(PlayerPedId(), false)
         isBisy = false
-        TriggerServerEvent('mh-blackmoneywash:server:payout', machine)
+        TriggerServerEvent('mh-blackmoneywash:server:payout', amount)
         LocalPlayer.state:set("inv_busy", false, true)
     end, function() -- cansel
         FreezeEntityPosition(PlayerPedId(), false)
@@ -60,10 +61,10 @@ local function DeleteBlips()
     end
 end
 
-local function Wash(machine)
+local function Wash(machine, amount)
     QBCore.Functions.TriggerCallback("mh-blackmoneywash:server:hasBlackmoney", function(hasBlacmmoney)
         if hasBlacmmoney then
-            TriggerServerEvent('mh-blackmoneywash:server:washmoney', machine)
+            TriggerServerEvent('mh-blackmoneywash:server:washmoney', machine, amount)
         end
     end)
 end
@@ -91,7 +92,17 @@ local function CreateMachine(machine)
                         isBisy = true
                         TaskTurnPedToFaceEntity(PlayerPedId(), entity, 5000)
                         Wait(1500)
-                        Wash(machine)
+                        local input = lib.inputDialog("amount to wash", {{
+                            type = 'number',
+                            label = "Amount to wash",
+                            required = true,
+                            icon = 'hashtag'
+                        }})
+                        if not input then 
+                            isBisy = false
+                            return
+                        end
+                        Wash(machine, input[1])
                     end,
                     canInteract = function(entity, distance, data)
                         if isBisy then return false end
@@ -112,7 +123,17 @@ local function CreateMachine(machine)
                     isBisy = true
                     TaskTurnPedToFaceEntity(PlayerPedId(), data.entity, 5000)
                     Wait(1500)
-                    Wash(machine)
+                    local input = lib.inputDialog("Amount to wash", {{
+                        type = 'number',
+                        label = "Amount",
+                        required = true,
+                        icon = 'hashtag'
+                    }})
+                    if not input then 
+                        isBisy = false
+                        return
+                    end
+                    Wash(machine, input[1])
                 end,
                 canInteract = function(entity, distance, data)
                     if isBisy then return false end
@@ -176,6 +197,6 @@ RegisterNetEvent('mh-blackmoneywash:client:onjoin', function()
     CreateMachines()
 end)
 
-RegisterNetEvent('mh-blackmoneywash:client:washmoney', function(machine)
-    PlayAnimation(machine, "amb@world_human_gardener_plant@male@base", "base", Lang:t('notify.wait_wash_machine'))
+RegisterNetEvent('mh-blackmoneywash:client:washmoney', function(machine, amount)
+    PlayAnimation(machine, "amb@world_human_gardener_plant@male@base", "base", Lang:t('notify.wait_wash_machine'), amount)
 end)
