@@ -43,7 +43,7 @@ RegisterServerEvent('mh-blackmoneywash:server:payout', function(amount)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         if Players[src] then
-            local newAmount = Player.PlayerData.money[SV_Config.BlackMoneyItem] - (amount * SV_Config.Tax) / 100
+            local newAmount = current_blackmoney - (amount / 100) * SV_Config.Tax
             Player.Functions.RemoveMoney(SV_Config.BlackMoneyItem, amount)
             TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items[SV_Config.BlackMoneyItem], "remove", amount)
             Player.Functions.AddMoney('cash', newAmount, nil)
