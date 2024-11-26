@@ -3,7 +3,7 @@
 --[[ ===================================================== ]] --
 SV_Config = {}
 SV_Config.Tax = 30                                      -- 30% tax (black_money - 30%)
-SV_Config.MinAmountToWash = 10000                       -- you need a x amount min black_money before you can use it
+SV_Config.MinAmountToWash = 1                           -- you need a x amount min black_money before you can use it
 SV_Config.BlackMoneyItem = "black_money"                -- black_money item
 SV_Config.Locations = {                                 -- all locations
     { -- blockenpark (test)
